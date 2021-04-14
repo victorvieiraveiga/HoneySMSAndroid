@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Tenho Interesse"
+        android:id="@+id/tInteresse"
+        app:showAsAction="never" />
+
+    <item
+        android:title="Não Tenho Interesse"
+        android:id="@+id/ntInteresse"
+        app:showAsAction="never" />
+
+    <item
+        android:title="Não Tenho Interesse na Campanha"
+        android:id="@+id/ntInteresseCampanha"
+        app:showAsAction="never" />
+</menu>

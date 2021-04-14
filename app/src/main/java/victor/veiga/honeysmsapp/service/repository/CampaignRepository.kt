@@ -1,0 +1,35 @@
+package victor.veiga.honeysmsapp.service.repository
+
+import android.content.Context
+import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import victor.veiga.honeysmsapp.service.listener.APIListener
+import victor.veiga.honeysmsapp.service.model.CampaignModel
+import victor.veiga.honeysmsapp.service.remote.CampaignService
+import victor.veiga.honeysmsapp.service.remote.RetrofiClientToken
+import victor.veiga.honeysmsapp.service.remote.RetrofitClient
+
+class   CampaignRepository (val context: Context){
+
+    fun loadCampaign (listener: APIListener<CampaignModel>) {
+
+        val call = RetrofiClientToken<CampaignService>(context).create(CampaignService::class.java).listCampaign()
+        call.enqueue(object : Callback<CampaignModel>{
+            override fun onFailure(call: Call<CampaignModel>, t: Throwable) {
+                listener.onFailure(t.message.toString())
+            }
+
+            override fun onResponse(call: Call<CampaignModel>, response: Response<CampaignModel>) {
+                if (response.code()!=200) {
+                    val validation = Gson().fromJson(response.errorBody()!!.string(), String::class.java)
+                    listener.onFailure(validation)
+                }
+                response.body()?.let { listener.onSuccess(it) }
+            }
+
+        })
+
+    }
+}
